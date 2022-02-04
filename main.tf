@@ -12,6 +12,7 @@ locals {
     subscription = {
       name = "ibm-dv-operator-catalog-subscription"
       operator_namespace   = var.namespace
+      syncWave = "-5"
       spec = {
             channel = "v1.7"
             installPlanApproval = "Automatic"
