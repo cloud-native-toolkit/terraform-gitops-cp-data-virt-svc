@@ -5,6 +5,18 @@ output "name" {
   depends_on  = [null_resource.setup_gitops_instance]
 }
 
+output "sub_chart" {
+  description = "The name of Subscription chart"
+  value       = local.subscription_chart
+  depends_on  = [null_resource.setup_gitops_instance]
+}
+
+output "inst_chart" {
+  description = "The name of the Instance chart"
+  value       = local.instance_chart
+  depends_on  = [null_resource.setup_gitops_instance]
+}
+
 output "branch" {
   description = "The branch where the module config has been placed"
   value       = local.application_branch

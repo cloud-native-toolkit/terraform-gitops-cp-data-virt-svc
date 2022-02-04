@@ -34,7 +34,7 @@ This module makes use of the output from other modules:
 ## Example usage
 
 ```hcl-terraform
-module "cpd-data-virtualization" {
+module "cp-data-virtualization" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-cp-data-virtualization.git"
 
   cluster_config_file = module.dev_cluster.config_file_path
@@ -43,6 +43,7 @@ module "cpd-data-virtualization" {
   ingress_subdomain   = module.dev_cluster.ingress_hostname
   olm_namespace       = module.dev_software_olm.olm_namespace
   operator_namespace  = module.dev_software_olm.target_namespace
+  name                = "cp-data-virtualization"
 }
 ```
 
