@@ -16,12 +16,6 @@ mkdir -p .testrepo
 git clone https://${GIT_TOKEN}@${GIT_REPO} .testrepo
 
 cd .testrepo || exit 1
-echo "argocd- directories"
-ls argocd
-ls argocd/${LAYER}
-ls argocd/${LAYER}/cluster/
-ls argocd/${LAYER}/cluster/${SERVER_NAME}
-ls argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}
 
 find . -name "*"
 IFS=","

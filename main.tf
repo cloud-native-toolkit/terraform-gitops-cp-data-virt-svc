@@ -69,7 +69,7 @@ resource null_resource setup_gitops_subscription {
   depends_on = [null_resource.create_subcription_yaml]
 
   triggers = {
-    name = local.subscription_chart
+    name = local.name
     namespace = var.namespace
     yaml_dir = local.subscription_yaml_dir
     server_name = var.server_name
@@ -104,7 +104,7 @@ resource null_resource setup_gitops_instance {
   depends_on = [null_resource.create_instance_yaml, null_resource.setup_gitops_subscription]
 
   triggers = {
-    name = local.instance_chart
+    name = local.name
     namespace = var.namespace
     yaml_dir = local.instance_yaml_dir
     server_name = var.server_name
