@@ -6,8 +6,8 @@ resource null_resource write_outputs {
     environment = {
       OUTPUT = jsonencode({
         name        = module.gitops_module.name
-        sub_chart   = module.gitops_module.subscription_chart
-        inst_chart  = module.gitops_module.instance_chart
+        sub_chart   = module.gitops_module.sub_chart
+        inst_chart  = module.gitops_module.inst_chart
         branch      = module.gitops_module.branch
         namespace   = module.gitops_module.namespace
         server_name = module.gitops_module.server_name
