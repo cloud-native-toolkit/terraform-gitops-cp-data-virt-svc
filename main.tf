@@ -1,5 +1,5 @@
 locals {
-  name          = "cpd-data-virtualization"
+  name          = "cp-data-virtualization"
   bin_dir       = module.setup_clis.bin_dir
   subscription_chart  = "ibm-cpd-dv-op-sub"
   instance_chart  = "ibm-cpd-dv-instance-cr"
