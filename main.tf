@@ -69,7 +69,7 @@ resource null_resource setup_gitops_subscription {
   depends_on = [null_resource.create_subcription_yaml]
 
   triggers = {
-    name = local.name
+    name = local.subscription_chart
     namespace = var.namespace
     yaml_dir = local.subscription_yaml_dir
     server_name = var.server_name
@@ -81,7 +81,7 @@ resource null_resource setup_gitops_subscription {
   }
 
   provisioner "local-exec" {
-    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.subscription_chart}' -n '${self.triggers.namespace}' --contentDir '${self.triggers.subscription_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
+    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.name}' -n '${self.triggers.namespace}' --contentDir '${self.triggers.subscription_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
 
     environment = {
       GIT_CREDENTIALS = nonsensitive(self.triggers.git_credentials)
@@ -91,7 +91,7 @@ resource null_resource setup_gitops_subscription {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.subscription_chart}' -n '${self.triggers.namespace}' --delete --contentDir '${self.triggers.subscription_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
+    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.name}' -n '${self.triggers.namespace}' --delete --contentDir '${self.triggers.subscription_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
 
     environment = {
       GIT_CREDENTIALS = nonsensitive(self.triggers.git_credentials)
@@ -104,7 +104,7 @@ resource null_resource setup_gitops_instance {
   depends_on = [null_resource.create_instance_yaml, null_resource.setup_gitops_subscription]
 
   triggers = {
-    name = local.name
+    name = local.instance_chart
     namespace = var.namespace
     yaml_dir = local.instance_yaml_dir
     server_name = var.server_name
@@ -116,7 +116,7 @@ resource null_resource setup_gitops_instance {
   }
 
   provisioner "local-exec" {
-    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.instance_chart}' -n '${self.triggers.namespace}' --contentDir '${self.triggers.instance_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
+    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.name}' -n '${self.triggers.namespace}' --contentDir '${self.triggers.instance_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
 
     environment = {
       GIT_CREDENTIALS = nonsensitive(self.triggers.git_credentials)
@@ -126,7 +126,7 @@ resource null_resource setup_gitops_instance {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.instance_chart}' -n '${self.triggers.namespace}' --delete --contentDir '${self.triggers.instance_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
+    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.name}' -n '${self.triggers.namespace}' --delete --contentDir '${self.triggers.instance_yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
 
     environment = {
       GIT_CREDENTIALS = nonsensitive(self.triggers.git_credentials)
