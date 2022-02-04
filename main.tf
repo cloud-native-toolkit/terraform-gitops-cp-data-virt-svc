@@ -8,32 +8,31 @@ locals {
   ingress_host  = "${local.name}-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.namespace}"
-  values_content = {
-    subscription = {
-      name = "ibm-dv-operator-catalog-subscription"
-      operator_namespace   = var.namespace
-      syncWave = "-5"
-      spec = {
-            channel = "v1.7"
-            installPlanApproval = "Automatic"
-            name = "ibm-dv-operator"
-            source = "ibm-operator-catalog"
-            sourceNamespace = "openshift-marketplace"
-      }    
-    }
-    instance = {
-      name = "dv-service"
-      cpd_namespace = "cpd"
-      spec = {
-        license = {
-          accept = "true"
-          license = "Enterprise"
+  subscription_content = {
+    name = "ibm-dv-operator-catalog-subscription"
+    operator_namespace   = var.namespace
+    syncWave = "-5"
+    spec = {
+      channel = "v1.7"
+      installPlanApproval = "Automatic"
+      name = "ibm-dv-operator"
+      source = "ibm-operator-catalog"
+      sourceNamespace = "openshift-marketplace"        
+    }       
+  }   
+  instance_content = {
+    name = "dv-service"
+    cpd_namespace = "cpd"
+    spec = {
+      license = {
+        accept = "true"
+        license = "Enterprise"
         }
-        version = "1.7.5"
-        size = "small"
+      version = "1.7.5"
+      size = "small"
       }               
-    }
-  }
+    }  
+  
   layer = "services"
   type = "operators"
   application_branch = "main"
@@ -50,7 +49,7 @@ resource null_resource create_subcription_yaml {
     command = "${path.module}/scripts/create-sub-yaml.sh '${local.subscription_chart}' '${local.subscription_yaml_dir}'"
 
     environment = {
-      VALUES_CONTENT = yamlencode(local.values_content.subscription)
+      VALUES_CONTENT = yamlencode(local.subscription_content)
     }
   }
 }
@@ -61,7 +60,7 @@ resource null_resource create_instance_yaml {
     command = "${path.module}/scripts/create-instnace-yaml.sh '${local.instance_chart}' '${local.instance_yaml_dir}'"
 
     environment = {
-      VALUES_CONTENT = yamlencode(local.values_content.instance)
+      VALUES_CONTENT = yamlencode(local.instance_content)
     }
   }
 }
