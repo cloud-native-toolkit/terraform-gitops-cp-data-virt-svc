@@ -3,8 +3,8 @@ locals {
   bin_dir       = module.setup_clis.bin_dir
   subscription_chart  = "ibm-cpd-dv-op-sub"
   instance_chart  = "ibm-cpd-dv-instance-cr"
-  subscription_yaml_dir = "${path.cwd}/.tmp/${local.name}/chart/${local.subscription_chart}/"
-  instance_yaml_dir     = "${path.cwd}/.tmp/${local.name}/chart/${local.instance_chart}/"
+  subscription_yaml_dir = "${path.cwd}/.tmp/${local.name}/chart/${local.subscription_chart}"
+  instance_yaml_dir     = "${path.cwd}/.tmp/${local.name}/chart/${local.instance_chart}"
   ingress_host  = "${local.name}-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.namespace}"
