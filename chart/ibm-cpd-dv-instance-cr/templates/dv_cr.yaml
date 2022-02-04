@@ -1,0 +1,7 @@
+apiVersion: db2u.databases.ibm.com/v1
+kind: DvService
+metadata:
+  name: {{ .Values.instance.name }}
+  namespace: {{ .Values.instance.cpd_namespace }}
+spec:
+  {{- toYaml .Values.instance.spec | nindent 2 }}
