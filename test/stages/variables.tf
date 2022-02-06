@@ -75,6 +75,10 @@ variable "git_repo" {
   default = "git-module-test"
 }
 
+variable "git_provision" {
+  default = false
+}
+
 variable "gitops_namespace" {
   default = "openshift-gitops"
 }

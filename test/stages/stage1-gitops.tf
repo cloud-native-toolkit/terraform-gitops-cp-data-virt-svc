@@ -7,9 +7,9 @@ module "gitops" {
   repo = var.git_repo
   token = var.git_token
   public = true
+  provision = var.git_provision
   username = var.git_username
   gitops_namespace = var.gitops_namespace
-  sealed_secrets_cert = module.cert.cert
 }
 
 resource null_resource gitops_output {
