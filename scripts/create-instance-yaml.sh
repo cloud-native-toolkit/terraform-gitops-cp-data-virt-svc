@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
-MODULE_DIR=$(cd "${SCRIPT_DIR}/.."; pwd -P)
-CHART_DIR=$(cd "${MODULE_DIR}/charts/ibm-cpd-dv-instance-cr"; pwd -P)
-
 NAME="$1"
 DEST_DIR="$2"
+
+SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
+MODULE_DIR=$(cd "${SCRIPT_DIR}/.."; pwd -P)
+CHART_DIR=$(cd "${MODULE_DIR}/charts/${NAME}"; pwd -P)
+
+
 
 mkdir -p $DEST_DIR
 

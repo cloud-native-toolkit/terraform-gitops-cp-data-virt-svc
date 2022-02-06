@@ -1,10 +1,10 @@
 locals {
   name          = "cp-data-virtualization"
   bin_dir       = module.setup_clis.bin_dir
-  subscription_chart  = "ibm-cpd-dv-op-sub"
-  instance_chart  = "ibm-cpd-dv-instance-cr"
-  subscription_yaml_dir = "${path.cwd}/.tmp/${local.name}/chart/${local.subscription_chart}"
-  instance_yaml_dir     = "${path.cwd}/.tmp/${local.name}/chart/${local.instance_chart}"
+  subscription_name  = "ibm-cpd-dv-subcription"
+  subscription_yaml_dir = "${path.cwd}/.tmp/${local.name}/chart/${local.subscription_name}"
+  instance_name  = "ibm-cpd-dv-instance"
+  instance_yaml_dir     = "${path.cwd}/.tmp/${local.name}/chart/${local.instance_name}"
   ingress_host  = "${local.name}-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.namespace}"
@@ -34,7 +34,8 @@ locals {
     }  
   
   layer = "services"
-  type = "operators"
+  operator_type  = "operators"
+  type = "instances"
   application_branch = "main"
   namespace = var.namespace
   layer_config = var.gitops_config[local.layer]
@@ -46,7 +47,7 @@ module setup_clis {
 
 resource null_resource create_subcription_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-sub-yaml.sh '${local.subscription_chart}' '${local.subscription_yaml_dir}'"
+    command = "${path.module}/scripts/create-subscription-yaml.sh '${local.subscription_name}' '${local.subscription_yaml_dir}'"
 
     environment = {
       VALUES_CONTENT = yamlencode(local.subscription_content)
@@ -57,7 +58,7 @@ resource null_resource create_subcription_yaml {
 resource null_resource create_instance_yaml {
   depends_on = [null_resource.create_subcription_yaml]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-instnace-yaml.sh '${local.instance_chart}' '${local.instance_yaml_dir}'"
+    command = "${path.module}/scripts/create-instance-yaml.sh '${local.instance_name}' '${local.instance_yaml_dir}'"
 
     environment = {
       VALUES_CONTENT = yamlencode(local.instance_content)
@@ -69,7 +70,7 @@ resource null_resource setup_gitops_subscription {
   depends_on = [null_resource.create_subcription_yaml]
 
   triggers = {
-    name = local.name
+    name = local.subscription_name
     namespace = var.namespace
     yaml_dir = local.subscription_yaml_dir
     server_name = var.server_name
@@ -104,7 +105,7 @@ resource null_resource setup_gitops_instance {
   depends_on = [null_resource.create_instance_yaml, null_resource.setup_gitops_subscription]
 
   triggers = {
-    name = local.name
+    name = local.instance_name
     namespace = var.namespace
     yaml_dir = local.instance_yaml_dir
     server_name = var.server_name
