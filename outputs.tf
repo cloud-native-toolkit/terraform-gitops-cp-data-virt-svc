@@ -7,13 +7,13 @@ output "name" {
 
 output "sub_chart" {
   description = "The name of Subscription chart"
-  value       = local.subscription_chart
+  value       = local.subscription_name
   depends_on  = [null_resource.setup_gitops_instance]
 }
 
 output "inst_chart" {
   description = "The name of the Instance chart"
-  value       = local.instance_chart
+  value       = local.instance_name
   depends_on  = [null_resource.setup_gitops_instance]
 }
 
