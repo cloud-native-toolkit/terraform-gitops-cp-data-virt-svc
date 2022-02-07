@@ -7,4 +7,6 @@ module "gitops_module" {
   namespace = module.gitops_namespace.name
   kubeseal_cert = module.gitops.sealed_secrets_cert
   catalog = module.cp_catalogs.catalog_ibmoperators
+  # operator_namespace= module.cp4d-operator.namespace
+  cpd_namespace = module.cp4d-instance.namespace
 }

@@ -28,6 +28,8 @@ This module makes use of the output from other modules:
 - Cluster - github.com/cloud-native-toolkit/terraform-ibm-ocp-vpc.git
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
 - Catalog - github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
+- cp_foundation - github.com/cloud-native-toolkit/terraform-gitops-cp-foundational-services.git
+- cp4d_operator - github.com/cloud-native-toolkit/terraform-gitops-cp4d-operator.git
 - cp4d-instance - github.com/cloud-native-toolkit/terraform-gitops-cp4d-instance.git
 
 

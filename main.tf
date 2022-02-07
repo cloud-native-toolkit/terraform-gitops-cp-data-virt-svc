@@ -10,7 +10,7 @@ locals {
   service_url   = "http://${local.name}.${var.namespace}"
   subscription_content = {
     name = "ibm-dv-operator-catalog-subscription"
-    operator_namespace = module.cp4d-operator.namespace
+    operator_namespace = var.operator_namespace
     syncWave = "-5"
     spec = {
       channel = "v1.7"
@@ -22,7 +22,7 @@ locals {
   }   
   instance_content = {
     name = "dv-service"
-    cpd_namespace = module.cp4d-instance.namespace
+    cpd_namespace = var.cpd_namespace
     spec = {
       license = {
         accept = "true"
@@ -42,14 +42,6 @@ locals {
 
 module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
-}
-
-module cp4d-operator {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp4d-operator.git"
-}
-
-module cp4d-instance {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp4d-instance.git"
 }
 
 resource null_resource create_subcription_yaml {

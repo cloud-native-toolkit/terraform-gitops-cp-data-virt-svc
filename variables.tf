@@ -103,3 +103,15 @@ variable "catalog" {
   description = "The catalog source that should be used to deploy the operator"
   default     = "ibm-operator-catalog"
 }
+
+variable "operator_namespace" {
+  type        = string
+  description = "operator namespace"
+  default     = "ibm-common-services"
+}
+
+variable "cpd_namespace" {
+  type        = string
+  description = "cpd namespace"
+  default     = ""
+}
