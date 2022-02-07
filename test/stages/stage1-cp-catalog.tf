@@ -1,5 +1,5 @@
 module "gitops_ibm_catalogs" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git"
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
