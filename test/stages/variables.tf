@@ -1,4 +1,3 @@
-
 # Resource Group Variables
 variable "resource_group_name" {
   type        = string
@@ -73,10 +72,6 @@ variable "git_org" {
 
 variable "git_repo" {
   default = "git-module-test"
-}
-
-variable "git_provision" {
-  default = false
 }
 
 variable "gitops_namespace" {

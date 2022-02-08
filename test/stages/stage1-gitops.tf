@@ -10,6 +10,7 @@ module "gitops" {
   provision = var.git_provision
   username = var.git_username
   gitops_namespace = var.gitops_namespace
+  sealed_secrets_cert = module.cert.cert
 }
 
 resource null_resource gitops_output {
