@@ -1,10 +1,9 @@
 locals {
-  name          = "cp-data-virtualization"
+  name          = "ibm-cpd-dv-instance"
   bin_dir       = module.setup_clis.bin_dir
   subscription_name  = "ibm-cpd-dv-subcription"
   subscription_yaml_dir = "${path.cwd}/.tmp/${local.name}/chart/${local.subscription_name}"
-  instance_name  = "ibm-cpd-dv-instance"
-  instance_yaml_dir     = "${path.cwd}/.tmp/${local.name}/chart/${local.instance_name}"
+  instance_yaml_dir = "${path.cwd}/.tmp/${local.name}/chart/${local.name}"
   ingress_host  = "${local.name}-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.namespace}"
@@ -57,7 +56,7 @@ resource null_resource create_subcription_yaml {
 resource null_resource create_instance_yaml {
   depends_on = [null_resource.create_subcription_yaml]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-instance-yaml.sh '${local.instance_name}' '${local.instance_yaml_dir}'"
+    command = "${path.module}/scripts/create-instance-yaml.sh '${local.name}' '${local.instance_yaml_dir}'"
 
     environment = {
       VALUES_CONTENT = yamlencode(local.instance_content)
@@ -104,7 +103,7 @@ resource null_resource setup_gitops_instance {
   depends_on = [null_resource.create_instance_yaml, null_resource.setup_gitops_subscription]
 
   triggers = {
-    name = local.instance_name
+    name = local.name
     namespace = var.namespace
     yaml_dir = local.instance_yaml_dir
     server_name = var.server_name

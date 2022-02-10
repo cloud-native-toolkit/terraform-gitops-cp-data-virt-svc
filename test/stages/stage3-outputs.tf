@@ -5,15 +5,17 @@ resource null_resource write_outputs {
 
     environment = {
       OUTPUT = jsonencode({
-        name        = module.cp-data-virtualization.name
-        sub_chart   = module.cp-data-virtualization.sub_chart
-        inst_chart  = module.cp-data-virtualization.inst_chart
-        branch      = module.cp-data-virtualization.branch
-        namespace   = module.cp-data-virtualization.namespace
-        server_name = module.cp-data-virtualization.server_name
-        layer       = module.cp-data-virtualization.layer
-        layer_dir   = module.cp-data-virtualization.layer == "infrastructure" ? "1-infrastructure" : (module.cp-data-virtualization.layer == "services" ? "2-services" : "3-applications")
-        type        = module.cp-data-virtualization.type
+        name        = module.cp-watson-studio.name
+        inst_name   = module.cp-watson-studio.inst_name
+        sub_chart   = module.cp-watson-studio.sub_chart
+        sub_name   = module.cp-watson-studio.sub_name
+        operator_namespace = module.cp-watson-studio.operator_namespace
+        branch      = module.cp-watson-studio.branch
+        namespace   = module.cp-watson-studio.namespace
+        server_name = module.cp-watson-studio.server_name
+        layer       = module.cp-watson-studio.layer
+        layer_dir   = module.cp-watson-studio.layer == "infrastructure" ? "1-infrastructure" : (module.cp-watson-studio.layer == "services" ? "2-services" : "3-applications")
+        type        = module.cp-watson-studio.type
       })
     }
   }
