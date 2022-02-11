@@ -62,7 +62,7 @@ while [ $SUB_STATUS != 1 ]; do
 done
 
 sleep 30
-INST_STATUS=$(kubectl get DvService dv-service)
+INST_STATUS=$(kubectl get DvService dv-service -n CPD_NAMESPACE)
 
 echo "Data Virtualization DvService/dv-service is ${INST_STATUS}"
 
