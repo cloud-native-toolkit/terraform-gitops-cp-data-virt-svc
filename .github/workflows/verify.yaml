@@ -43,7 +43,6 @@ jobs:
           org="${GIT_ORG:-cloud-native-toolkit-test}"
           echo "Org: $org"
           echo "::set-output name=org::$org"
-
       - name: Verify deploy on ${{ matrix.testcase }}
         uses: cloud-native-toolkit/action-module-verify-deploy@main
         with:
@@ -54,7 +53,8 @@ jobs:
           TF_VAR_git_token: ${{ secrets.GIT_ADMIN_TOKEN }}
           TF_VAR_git_org: ${{ steps.variables.outputs.org }}
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
-          TF_VAR_entitlement_key: ${{ secrets.CP_ENTITLEMENT_KEY }}
+          TF_VAR_bootstrap_prefix: ${{ steps.variables.outputs.repo }}
+          TF_VAR_cp_entitlement_key: ${{ secrets.CP_ENTITLEMENT_KEY }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
@@ -68,7 +68,8 @@ jobs:
           TF_VAR_git_token: ${{ secrets.GIT_ADMIN_TOKEN }}
           TF_VAR_git_org: ${{ steps.variables.outputs.org }}
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
-          TF_VAR_entitlement_key: ${{ secrets.CP_ENTITLEMENT_KEY }}
+          TF_VAR_bootstrap_prefix: ${{ steps.variables.outputs.repo }}
+          TF_VAR_cp_entitlement_key: ${{ secrets.CP_ENTITLEMENT_KEY }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
@@ -83,11 +84,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: cloud-native-toolkit/action-module-metadata-create@v1
+      - uses: actions/setup-node@v2-beta
         with:
-          strict: true
-          validate: true
+          node-version: '14'
 
+      - name: Build catalog
+        uses: cloud-native-toolkit/action-module-catalog@v1
+        with:
+          tagName: ${{ github.event.release.tag_name }}
+          distDir: ${{ env.DIST_DIR }}
+          publishBranch: ${{ env.PUBLISH_BRANCH }}
+
+      - name: Verify module schema
+        run: |
+          npm i -g ajv-cli
+          curl -LsO https://modules.cloudnativetoolkit.dev/schemas/module.json
+          ajv test -s module.json -d ${{ env.DIST_DIR }}/index.yaml --valid
   release:
     needs: [verify, verifyMetadata]
     runs-on: ubuntu-latest
