@@ -1,12 +1,12 @@
-# Resource Group Variables
-variable "resource_group_name" {
+
+variable cluster_username { 
   type        = string
-  description = "Existing resource group where the IKS cluster will be provisioned."
+  description = "The username for AWS access"
 }
 
-variable "ibmcloud_api_key" {
+variable "cluster_password" {
   type        = string
-  description = "The api key for IBM Cloud access"
+  description = "The password for AWS access"
 }
 
 variable "server_url" {
@@ -38,18 +38,6 @@ variable "cluster_exists" {
   type        = string
   description = "Flag indicating if the cluster already exists (true or false)"
   default     = "true"
-}
-
-variable "name_prefix" {
-  type        = string
-  description = "Prefix name that should be used for the cluster and services. If not provided then resource_group_name will be used"
-  default     = ""
-}
-
-variable "vpc_cluster" {
-  type        = bool
-  description = "Flag indicating that this is a vpc cluster"
-  default     = false
 }
 
 variable "git_token" {
@@ -85,10 +73,9 @@ variable "kubeseal_namespace" {
   default = "sealed-secrets"
 }
 
-variable "entitlement_key" {
+variable "cp_entitlement_key" {
   type        = string
   description = "The entitlement key required to access Cloud Pak images"
-  default = ""
 }
 
 variable "cpd_common_services_namespace" {
