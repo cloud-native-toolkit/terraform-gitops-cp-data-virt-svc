@@ -74,8 +74,26 @@ variable "kubeseal_cert" {
   default     = ""
 }
 
+variable "cluster_ingress_hostname" {
+  type        = string
+  description = "Ingress hostname of the IKS cluster."
+  default     = ""
+}
+
 variable "server_name" {
   type        = string
   description = "The name of the server"
   default     = "default"
+}
+
+variable "operator_namespace" {
+  type        = string
+  description = "CPD operator namespace"
+  default = "ibm-common-services"
+}
+
+variable "cpd_namespace" {
+  type        = string
+  description = "CPD namespace"
+  default = "gitops-cp4d-instance"
 }

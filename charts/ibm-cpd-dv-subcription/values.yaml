@@ -1,0 +1,13 @@
+# Default values for Data Virtualization Operator Subscription.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: ibm-dv-operator-catalog-subscription
+operator_namespace: ibm-common-services
+syncWave: "-5"
+spec:
+  channel: v1.7
+  installPlanApproval: Automatic
+  name: ibm-dv-operator
+  source: ibm-operator-catalog
+  sourceNamespace: openshift-marketplace

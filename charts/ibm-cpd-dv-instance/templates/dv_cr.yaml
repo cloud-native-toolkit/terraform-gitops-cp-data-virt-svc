@@ -1,0 +1,11 @@
+apiVersion: db2u.databases.ibm.com/v1
+kind: DvService
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.cpd_namespace }}   
+spec:
+  license:
+    accept: true
+    license: Enterprise
+  version: {{ .Values.spec.version }}
+  size: {{ .Values.spec.size }}                    
