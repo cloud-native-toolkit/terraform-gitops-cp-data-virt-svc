@@ -31,6 +31,7 @@ This module makes use of the output from other modules:
 - cp_foundation - github.com/cloud-native-toolkit/terraform-gitops-cp-foundational-services.git
 - cp4d_operator - github.com/cloud-native-toolkit/terraform-gitops-cp4d-operator.git
 - cp4d-instance - github.com/cloud-native-toolkit/terraform-gitops-cp4d-instance.git
+- db2u-operator
 
 
 ## Example usage

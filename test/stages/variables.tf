@@ -1,4 +1,3 @@
-
 variable cluster_username { 
   type        = string
   description = "The username for AWS access"
@@ -83,7 +82,6 @@ variable "cpd_common_services_namespace" {
   description = "Namespace for cpd commmon services"
   default = "ibm-common-services"
 }
-
 
 variable "cpd_operator_namespace" {
   type        = string
