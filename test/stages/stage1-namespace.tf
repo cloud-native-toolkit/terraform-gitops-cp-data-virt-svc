@@ -38,7 +38,7 @@ module "gitops_cpd_namespace" {
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
-  name = var.cpd_operator_namespace
+  name = var.cpd_namespace
   create_operator_group = false
 }
 

@@ -6,6 +6,6 @@ metadata:
 spec:
   license:
     accept: true
-    license: {{ .Values.spec.license.license }}
+    license: Enterprise
   version: {{ .Values.spec.version }}
   size: {{ .Values.spec.size }}                    
