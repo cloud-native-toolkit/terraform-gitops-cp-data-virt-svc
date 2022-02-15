@@ -10,7 +10,7 @@ resource null_resource write_outputs {
         sub_chart   = module.cp-data-virtualization.sub_chart
         sub_name   = module.cp-data-virtualization.sub_name
         operator_namespace = module.cp-data-virtualization.operator_namespace
-        cpd_namespace= module.cp-watson-studio.cpd_namespace
+        cpd_namespace= module.cp-data-virtualization.cpd_namespace
         branch      = module.cp-data-virtualization.branch
         namespace   = module.cp-data-virtualization.namespace
         server_name = module.cp-data-virtualization.server_name
