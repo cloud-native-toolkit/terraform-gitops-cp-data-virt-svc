@@ -68,7 +68,7 @@ done
 
 echo "CPD_NAMESPACE *****"${CPD_NAMESPACE}""
 sleep 30
-INST_STATUS=$(kubectl get DvService dv-service -n CPD_NAMESPACE)
+INST_STATUS=$(kubectl get DvService dv-service -n "${CPD_NAMESPACE}" -o jsonpath="{.status.reconcileStatus}")
 
 echo "Data Virtualization DvService/dv-service is ${INST_STATUS}"
 
