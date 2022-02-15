@@ -53,14 +53,20 @@ else
   sleep 30
 fi
 
+echo "OPERATOR_NAMESPACE ***** "${OPERATOR_NAMESPACE}""
+echo "SUBSCRIPTION_NAME *****"${SUBSCRIPTION_NAME}""
+sleep 15
+
 CSV=$(kubectl get sub -n "${OPERATOR_NAMESPACE}" "${SUBSCRIPTION_NAME}" -o jsonpath='{.status.installedCSV} {"\n"}')
+echo "CSV ***** "${CSV}""
 SUB_STATUS=0
 while [ $SUB_STATUS != 1 ]; do
-  sleep 15
+  sleep 5
   SUB_STATUS=$(kubectl get deployments -n "${OPERATOR_NAMESPACE}" -l olm.owner="${CSV}" -o jsonpath="{.items[0].status.availableReplicas} {'\n'}")
-  echo "Waiting for subscription/${SUBSCRIPTION_NAME} in ${OPERATOR_NAMESPACE}"
+  echo "SUB_STATUS ${SUB_STATUS} **** Waiting for subscription/${SUBSCRIPTION_NAME} in ${OPERATOR_NAMESPACE}"
 done
 
+echo "CPD_NAMESPACE *****"${CPD_NAMESPACE}""
 sleep 30
 INST_STATUS=$(kubectl get DvService dv-service -n CPD_NAMESPACE)
 

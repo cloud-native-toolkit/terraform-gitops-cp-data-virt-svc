@@ -45,7 +45,7 @@ module setup_clis {
 
 resource null_resource create_subcription_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-subscription-yaml.sh '${local.subscription_name}' '${local.subscription_yaml_dir}'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.subscription_name}' '${local.subscription_yaml_dir}'"
 
     environment = {
       VALUES_CONTENT = yamlencode(local.subscription_content)
@@ -53,16 +53,7 @@ resource null_resource create_subcription_yaml {
   }
 }
 
-resource null_resource create_instance_yaml {
-  depends_on = [null_resource.create_subcription_yaml]
-  provisioner "local-exec" {
-    command = "${path.module}/scripts/create-instance-yaml.sh '${local.name}' '${local.instance_yaml_dir}'"
 
-    environment = {
-      VALUES_CONTENT = yamlencode(local.instance_content)
-    }
-  }
-}
 
 resource null_resource setup_gitops_subscription {
   depends_on = [null_resource.create_subcription_yaml]
@@ -73,7 +64,7 @@ resource null_resource setup_gitops_subscription {
     yaml_dir = local.subscription_yaml_dir
     server_name = var.server_name
     layer = local.layer
-    type = local.type
+    type = local.operator_type
     git_credentials = yamlencode(var.git_credentials)
     gitops_config   = yamlencode(var.gitops_config)
     bin_dir = local.bin_dir
@@ -99,8 +90,18 @@ resource null_resource setup_gitops_subscription {
   }
 }
 
+resource null_resource create_instance_yaml {
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.instance_yaml_dir}'"
+
+    environment = {
+      VALUES_CONTENT = yamlencode(local.instance_content)
+    }
+  }
+}
+
 resource null_resource setup_gitops_instance {
-  depends_on = [null_resource.create_instance_yaml, null_resource.setup_gitops_subscription]
+  depends_on = [null_resource.create_instance_yaml]
 
   triggers = {
     name = local.name

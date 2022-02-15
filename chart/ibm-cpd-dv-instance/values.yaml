@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 name: dv-service
-cpd_namespace: cp4d-instance
+cpd_namespace: gitops-cp4d-instance
 spec:
   license:
     accept: true
