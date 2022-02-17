@@ -1,27 +1,13 @@
-# Starter kit for a Terraform GitOps module
+# Install Data Virtualization Service on Cloud Pak for Data
 
-This is a Starter kit to help with the creation of Terraform modules. The basic structure of a Terraform module is fairly
-simple and consists of the following basic values:
-
-- README.md - provides a description of the module
-- main.tf - defines the logic for the module
-- variables.tf (optional) - defines the input variables for the module
-- outputs.tf (optional) - defines the values that are output from the module
-
-Beyond those files, any other content can be added and organized however you see fit. For example, you can add a `scripts/` directory
-that contains shell scripts executed by a `local-exec` `null_resource` in the terraform module. The contents will depend on what your
-module does and how it does it.
-
-## Instructions for creating a new module
-
-1. Update the title and description in the README to match the module you are creating
-2. Fill out the remaining sections in the README template as appropriate
-3. Implement your logic in the in the main.tf, variables.tf, and outputs.tf
-4. Use releases/tags to manage release versions of your module
+Module to install Data Virtualization Service on Cloud Pak for Data. As per instructions mentioned in https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=virtualization-installing-service
 
 ## Software dependencies
 
 The module depends on the following software components:
+
+1. Openshift Cluster
+2. Cloud Pak for Data
 
 ### Command-line tools
 
@@ -37,23 +23,30 @@ The module depends on the following software components:
 
 This module makes use of the output from other modules:
 
+- Argocd Bootstrap - github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap.git
 - GitOps - github.com/cloud-native-toolkit/terraform-tools-gitops.git
+- Cluster - github.com/cloud-native-toolkit/terraform-ibm-ocp-vpc.git
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
-- etc
+- Catalog - github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
+- cp_foundation - github.com/cloud-native-toolkit/terraform-gitops-cp-foundational-services.git
+- cp4d_operator - github.com/cloud-native-toolkit/terraform-gitops-cp4d-operator.git
+- cp4d-instance - github.com/cloud-native-toolkit/terraform-gitops-cp4d-instance.git
+- db2u-operator
+
 
 ## Example usage
 
 ```hcl-terraform
-module "dev_tools_argocd" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-argocd.git"
+module "cp-data-virtualization" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-data-virtualization.git"
 
-  cluster_config_file = module.dev_cluster.config_file_path
-  cluster_type        = module.dev_cluster.type
-  app_namespace       = module.dev_cluster_namespaces.tools_namespace_name
-  ingress_subdomain   = module.dev_cluster.ingress_hostname
-  olm_namespace       = module.dev_software_olm.olm_namespace
-  operator_namespace  = module.dev_software_olm.target_namespace
-  name                = "argocd"
+  gitops_config = module.gitops.gitops_config
+  git_credentials = module.gitops.git_credentials
+  server_name = module.gitops.server_name
+  namespace = module.gitops_namespace.name
+  kubeseal_cert = module.gitops.sealed_secrets_cert
+  operator_namespace= module.cp4d-operator.namespace
+  cpd_namespace = module.cp4d-instance.namespace
 }
 ```
 
