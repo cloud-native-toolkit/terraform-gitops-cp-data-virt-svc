@@ -12,8 +12,8 @@ locals {
     operator_namespace = var.operator_namespace
     syncWave = "-5"
     spec = {
-      channel = "v1.7"
-      installPlanApproval = "Automatic"
+      channel = var.operator_channel
+      installPlanApproval = var.install_plan
       name = "ibm-dv-operator"
       source = "ibm-operator-catalog"
       sourceNamespace = "openshift-marketplace"        
@@ -25,10 +25,10 @@ locals {
     spec = {
       license = {
         accept = "true"
-        license = "Enterprise"
+        license = var.license
         }
-      version = "1.7.8"
-      size = "small"
+      version = var.instance_version
+      size = var.size
       }               
     }  
   layer = "services"
