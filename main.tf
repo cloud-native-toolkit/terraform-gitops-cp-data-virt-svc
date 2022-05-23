@@ -27,7 +27,7 @@ locals {
         accept = "true"
         license = "Enterprise"
         }
-      version = "1.7.5"
+      version = "1.7.8"
       size = "small"
       }               
     }  
@@ -91,6 +91,7 @@ resource null_resource setup_gitops_subscription {
 }
 
 resource null_resource create_instance_yaml {
+  depends_on = [null_resource.setup_gitops_subscription]
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.instance_yaml_dir}'"
 

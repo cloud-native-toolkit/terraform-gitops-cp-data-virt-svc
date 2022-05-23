@@ -7,6 +7,7 @@ export KUBECONFIG=$(cat .kubeconfig)
 NAMESPACE=$(cat .namespace)
 COMPONENT_NAME=$(jq -r '.name // "my-module"' gitops-output.json)
 SUBSCRIPTION_NAME=$(jq -r '.sub_name // "sub_name"' gitops-output.json)
+INSTANCE_NAME=$(jq -r '.inst_name // "instance_name"' gitops-output.json)
 OPERATOR_NAMESPACE=$(jq -r '.operator_namespace // "operator_namespace"' gitops-output.json)
 CPD_NAMESPACE=$(jq -r '.cpd_namespace // "cpd_namespace"' gitops-output.json)
 BRANCH=$(jq -r '.branch // "main"' gitops-output.json)
@@ -53,24 +54,34 @@ else
   sleep 30
 fi
 
-echo "OPERATOR_NAMESPACE ***** "${OPERATOR_NAMESPACE}""
-echo "SUBSCRIPTION_NAME *****"${SUBSCRIPTION_NAME}""
-sleep 15
+echo "CP4D Operators namespace : "${OPERATOR_NAMESPACE}""
+echo "CP4D namespace : "${CPD_NAMESPACE}""
+
+sleep 30
 
 CSV=$(kubectl get sub -n "${OPERATOR_NAMESPACE}" "${SUBSCRIPTION_NAME}" -o jsonpath='{.status.installedCSV} {"\n"}')
-echo "CSV ***** "${CSV}""
+echo "Found CSV : "${CSV}""
 SUB_STATUS=0
-while [ $SUB_STATUS != 1 ]; do
-  sleep 5
+while [[ $SUB_STATUS -ne 1 ]]; do
+  sleep 10
   SUB_STATUS=$(kubectl get deployments -n "${OPERATOR_NAMESPACE}" -l olm.owner="${CSV}" -o jsonpath="{.items[0].status.availableReplicas} {'\n'}")
-  echo "SUB_STATUS ${SUB_STATUS} **** Waiting for subscription/${SUBSCRIPTION_NAME} in ${OPERATOR_NAMESPACE}"
+  echo "Waiting for subscription "${SUBSCRIPTION_NAME}" to be ready in "${OPERATOR_NAMESPACE}""
 done
 
-echo "CPD_NAMESPACE *****"${CPD_NAMESPACE}""
-sleep 30
-INST_STATUS=$(kubectl get DvService dv-service -n "${CPD_NAMESPACE}" -o jsonpath="{.status.reconcileStatus}")
+echo "DV Operator is READY"
+sleep 60
+INSTANCE_STATUS=""
 
-echo "Data Virtualization DvService/dv-service is ${INST_STATUS}"
+while [ true ]; do
+  INSTANCE_STATUS=$(kubectl get DvService dv-service -n "${CPD_NAMESPACE}" -o jsonpath='{.status.reconcileStatus} {"\n"}')
+  echo "Waiting for instance "${INSTANCE_NAME}" to be ready. Current status : "${INSTANCE_STATUS}""
+  if [ $INSTANCE_STATUS == "Completed" ]; then
+    break
+  fi
+  sleep 60
+done
+
+echo "Data Virtualization DvService/"${INSTANCE_NAME}" is "${INSTANCE_STATUS}""
 
 cd ..
 rm -rf .testrepo
