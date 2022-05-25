@@ -39,20 +39,20 @@ fi
 echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 cat "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 
-# count=0
-# until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
-#   echo "Waiting for namespace: ${NAMESPACE}"
-#   count=$((count + 1))
-#   sleep 15
-# done
+count=0
+until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
+  echo "Waiting for namespace: ${NAMESPACE}"
+  count=$((count + 1))
+  sleep 15
+done
 
-# if [[ $count -eq 20 ]]; then
-#   echo "Timed out waiting for namespace: ${NAMESPACE}"
-#   exit 1
-# else
-#   echo "Found namespace: ${NAMESPACE}. Sleeping for 30 seconds to wait for everything to settle down"
-#   sleep 30
-# fi
+if [[ $count -eq 20 ]]; then
+  echo "Timed out waiting for namespace: ${NAMESPACE}"
+  exit 1
+else
+  echo "Found namespace: ${NAMESPACE}. Sleeping for 30 seconds to wait for everything to settle down"
+  sleep 30
+fi
 
 echo "CP4D Operators namespace : "${OPERATOR_NAMESPACE}""
 echo "CP4D namespace : "${CPD_NAMESPACE}""
