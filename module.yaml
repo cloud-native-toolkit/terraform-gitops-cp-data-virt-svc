@@ -1,4 +1,4 @@
-name: gitops-cp-data-virtualization-service
+name: gitops-cp-datavirtualization-svc
 type: gitops
 description: >-
   Module to populate a gitops repo for Data Virtualization on CP4D
