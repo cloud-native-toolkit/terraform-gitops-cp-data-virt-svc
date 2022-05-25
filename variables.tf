@@ -95,7 +95,7 @@ variable "common_services_namespace" {
 
 variable "operator_namespace" {
   type        = string
-  description = "Namespace for cpd commmon services"
+  description = "Namespace for cpd operators"
   default = "cpd-operators"
 }
 
