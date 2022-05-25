@@ -1,4 +1,4 @@
-module "cp-data-virtualization" {
+module "cp-datavirtualization-svc" {
   source = "./module"
 
   gitops_config = module.gitops.gitops_config
