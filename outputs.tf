@@ -1,4 +1,3 @@
-
 output "name" {
   description = "The name of the module"
   value       = local.name

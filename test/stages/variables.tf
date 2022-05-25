@@ -1,3 +1,4 @@
+
 variable cluster_username { 
   type        = string
   description = "The username for AWS access"
