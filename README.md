@@ -37,7 +37,7 @@ This module makes use of the output from other modules:
 ## Example usage
 
 ```hcl-terraform
-module "cp-data-virtualization" {
+module "cp-data-virtualization-service" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-cp-data-virt-svc.git"
 
   gitops_config = module.gitops.gitops_config

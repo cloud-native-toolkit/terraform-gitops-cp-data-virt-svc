@@ -7,3 +7,4 @@ test/stages/module
 test/stages/.terraform
 test/stages/localtest.tfvars
 .vscode/
+.DS_Store

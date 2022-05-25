@@ -86,14 +86,51 @@ variable "server_name" {
   default     = "default"
 }
 
+variable "common_services_namespace" {
+  type        = string
+  description = "Namespace for cpd commmon services"
+  default = "ibm-common-services"
+}
+
+
 variable "operator_namespace" {
   type        = string
-  description = "CPD operator namespace"
-  default = "ibm-common-services"
+  description = "Namespace for cpd operators"
+  default = "cpd-operators"
 }
 
 variable "cpd_namespace" {
   type        = string
   description = "CPD namespace"
   default = "gitops-cp4d-instance"
+}
+
+variable "operator_channel" {
+  type        = string
+  description = "operator channel"
+  default     = "v1.7"
+}
+
+variable "instance_version" {
+  type        = string
+  description = "Instance version"
+  default     = "1.7.8"
+}
+
+variable "license" {
+  type        = string
+  description = "License type"
+  default     = "Enterprise"
+}
+
+variable "install_plan" {
+  type        = string
+  description = "install plan"
+  default     = "Automatic"
+}
+
+variable "size" {
+  type        = string
+  description = "Size"
+  default     = "small"
 }
