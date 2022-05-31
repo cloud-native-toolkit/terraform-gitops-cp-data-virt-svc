@@ -134,3 +134,15 @@ variable "size" {
   description = "Size"
   default     = "small"
 }
+
+variable "sub_syncwave" {
+  type        = string
+  description = "Sync Wave"
+  default     = "-5"
+}
+
+variable "inst_syncwave" {
+  type        = string
+  description = "Sync Wave"
+  default     = "-3"
+}
