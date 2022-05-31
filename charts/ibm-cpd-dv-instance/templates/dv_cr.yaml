@@ -2,7 +2,9 @@ apiVersion: db2u.databases.ibm.com/v1
 kind: DvService
 metadata:
   name: {{ .Values.name }}
-  namespace: {{ .Values.cpd_namespace }}   
+  namespace: {{ .Values.cpd_namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ .Values.syncWave | default "-3" | quote }} 
 spec:
   license:
     accept: true

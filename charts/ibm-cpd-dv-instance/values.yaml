@@ -4,6 +4,7 @@
 
 name: dv-service
 cpd_namespace: gitops-cp4d-instance
+syncWave: "-3"
 spec:
   license:
     accept: true
